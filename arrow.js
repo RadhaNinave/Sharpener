@@ -9,16 +9,27 @@ class Student
         this.board_marks=board_marks;
         Student.count++;
     }
-    Eligible()
-    {
-        if(this.board_marks>40)
+   
+      setPlacementAge(minAge)
+      {
+        console.log(this);
+        return (minMarks)=>
         {
-            console.log("Eligible")
+            console.log('inside',this)
+            {
+                if(this.board_marks>minMarks && this.age>minAge)
+                {
+                    console.log(this.name+" Ready for placement");
+                }
+                else
+                {
+                    console.log("not ready");
+                }
+            }
         }
-        else{
-            console.log("not eligible")
-        }
-    }
+      }
+   
+
     counting()
     {
         console.log("total student created "+Student.count);
@@ -30,5 +41,5 @@ const st6=new Student('radhika','20','54321674','76');
 const st4=new Student('priya','23','5987621674','80');
 const st5=new Student('sheetal','18','989880604','38');
 console.log(st);
-st.Eligible();
+st.setPlacementAge(40);
 st.counting();
