@@ -38,7 +38,7 @@
   
             }
 
-            window.addEventListener('DOMContentLoaded', () => {
+          window.addEventListener('DOMContentLoaded', () => {
               axios.get("https://crudcrud.com/api/db6816ee0baa49d2b4217acf4c1c6f84/appointmentData")
               .then(resolve =>{
                     console.log(resolve)
@@ -51,14 +51,24 @@
                     {
                     console.log(err)
                     })
-                            
+                          
 
             })
+          /*  window.addEventListener('DOMContentLoaded',() => {
+    const localStorageObj = localStorage;
+    const localStorageKeys = Object.keys(localStorageObj);
+    for(let i=0;i<localStorageKeys.length;i++){
+        const key = localStorageKeys[i];
+        const userDetailsString = localStorageObj[key];
+        const userDetailsObj = JSON.parse(userDetailsString);
+        showListofRegisteredUser(userDetailsObj);
+    }
+});*/
 
             function showListofRegisteredUser(user){
                 const parentNode = document.getElementById('listOfitems');
-                const createNewUserHtml = `<li id='${user.email}'>${user.name} - ${user.email} - ${user.phonenumber}
-                                                <button onclick=deleteUser('${user.email}')>Delete</button>
+                const createNewUserHtml = `<li id='${user.email}'>${user.name} - ${user.email} 
+                                                <button onclick=deleteUser('${user._id}')>Delete</button>
                                             </li>
                                             `
                 console.log(createNewUserHtml)
@@ -67,17 +77,27 @@
             }
 
             function deleteUser(email) {
-                localStorage.removeItem(email)
+               
                 removeItemFromScreen(email)
+                console.log('DELETE Request');
+                axios.delete(`https://crudcrud.com/api/db6816ee0baa49d2b4217acf4c1c6f84/appointmentData/${email}`)
+                .then(res=>{
+                    removeItemFromScreen(email);
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
             }
 
             function removeItemFromScreen(email){
-                const parentNode = document.getElementById('listOfitems');
-                const elem = document.getElementById(email)
-                parentNode.removeChild(elem);
+                const parentNode = document.querySelector('#listofitems');
+    const childNodeToBeDeleted = document.getElementById(email); 
+    if(childNodeToBeDeleted != null){
+        parentNode.removeChild(childNodeToBeDeleted)
+    }
             }
-            document.getElementById('name').addEventListener('click', saveToLocalStorage);
-            document.getElementById('email').addEventListener('click', saveToLocalStorage);
+            document.getElementById('name').addEventListener('click', deleteUser);
+            document.getElementById('email').addEventListener('click', deleteUser);
         </script>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 
